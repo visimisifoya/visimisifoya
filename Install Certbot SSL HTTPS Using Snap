@@ -1,1 +1,41 @@
+Install Certbot SSL HTTPS Using Snap
+Install snapd (if not already installed)
+#sudo apt update
+#sudo apt install snapd -y
+Enable and start snap:
+$sudo systemctl enable snapd
+$sudo systemctl start snapd
+Let the system link classic snaps:
+$sudo snap install core
+$sudo snap refresh core
+Install Certbot via Snap
+$sudo snap install --classic certbot
+Create symlink so certbot works globally:
 
+$sudo ln -s /snap/bin/certbot /usr/bin/certbot
+Check Certbot version:
+$sudo certbot --version
+certbot 2.x.x
+Obtain SSL certificate for Nginx, make sure your Nginx config for http is working at http://yourdomain.com, then run:
+#certbot --nginx -d yourdomain.com -d www.yourdomain.com
+Certbot will: Auto-detect your Nginx config
+Request and install a certificate
+Ask if you want HTTP to HTTPS redirect (say yes)
+Test HTTPS: Open https://yourdomain.com and You should see the lock icon
+Auto-renew is set up by Snap
+You don’t need to manually configure cron jobs. Snap installs a systemd timer to auto-renew: Check it:
+
+$sudo systemctl list-timers | grep certbot
+
+You now have:
+Fresh Certbot installed via Snap
+Nginx auto-configured for HTTPS
+Auto-renewals enabled
+
+Set up SSL hardening / A+ SSL Labs rating?
+
+Force www → non-www redirect (or vice versa)?
+
+Use wildcard SSL with DNS challenge?
+
+I can help with any of those too!
